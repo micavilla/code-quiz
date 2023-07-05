@@ -49,3 +49,39 @@ function updateTimer() {
   timeLeft--;
   timerElement.textContent = timeLeft;
 };
+
+function setQuestion() {
+  const currentQuestion = quizQuestion[currentQuestionIndex];
+  questionElement.textContent = currentQuestion.question;
+  optionsElement.innerHTML = "";
+  
+  for (let i = 0; i < currentQuestion.choices.length; i++) {
+    const choice = document.createElement("li");
+    choice.textContent = currentQuestion.choices[i];
+    choice.addEventListener("click", () => {
+      checkAnswer(i);
+    })
+    optionsElement.appendChild(choice);
+  }
+}
+
+function checkAnswer(answerIndex) {
+  const currentQuestion = quizQuestion[currentQuestionsIndex];
+  if (timeLeft <= 0) {
+    return;
+  }
+
+  if (answerIndex === currentQuestion.answer) {
+    score++;
+  } else {
+    timeLeft -= 10;
+  }
+
+  currentQuestionIndex++;
+
+  if (currentQuestionIndex < quizQuestion.length) {
+    setQuestion();
+  } else {
+    return;
+  }
+}
