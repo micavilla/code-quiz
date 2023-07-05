@@ -1,3 +1,5 @@
+const timerElement = document.getElementById("timer");
+const leaderboard = [];
 const quizQuestion = [
   {
     question: "Question 1",
@@ -66,9 +68,9 @@ function setQuestion() {
 }
 
 function checkAnswer(answerIndex) {
-  const currentQuestion = quizQuestion[currentQuestionsIndex];
+  const currentQuestion = quizQuestion[currentQuestionIndex];
   if (timeLeft <= 0) {
-    return;
+    endQuiz();
   }
 
   if (answerIndex === currentQuestion.answer) {
@@ -82,6 +84,15 @@ function checkAnswer(answerIndex) {
   if (currentQuestionIndex < quizQuestion.length) {
     setQuestion();
   } else {
-    return;
+    endQuiz();
   }
+}
+
+function endQuiz() {
+  endTime = timeLeft;
+  timerElement.style.display = "none";
+  optionsElement.style.display = "none";
+  initialsInput.style.display = "block";
+  submitElement.style.display = "block";
+  questionElement.textContent = "Your score is " + " out of 4, with " + endTime + " second left. Enter your initials and click 'Submit' to save your score!";
 }
