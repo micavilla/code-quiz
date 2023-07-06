@@ -94,5 +94,11 @@ function endQuiz() {
   optionsElement.style.display = "none";
   initialsInput.style.display = "block";
   submitElement.style.display = "block";
-  questionElement.textContent = "Your score is " + " out of 4, with " + endTime + " second left. Enter your initials and click 'Submit' to save your score!";
+  questionElement.textContent = "Your score is " + score + " out of 4, with " + endTime + " second left. Enter your initials and click 'Submit' to save your score!";
+}
+
+function saveScore() {
+  var initials = initialsInput.value;
+  leaderboard.push(["user: " + initials, "score: " + score, "time left: " + endTime]);
+  console.log(leaderboard);
 }
