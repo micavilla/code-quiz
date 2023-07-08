@@ -1,6 +1,6 @@
-const timerElement = document.getElementById("timer");
-const leaderboard = [];
-const quizQuestion = [
+var timerElement = document.getElementById("timer");
+var leaderboards = [];
+var quizQuestion = [
   {
     question: "Question 1",
     choices: ["Option A", "Option B", "Option C", "Option D"],
@@ -25,7 +25,7 @@ const quizQuestion = [
 
 let currentQuestionIndex = 0;
 let score = 0;
-let timeLeft = 60;
+let timeLeft = 100;
 let timerInterval;
 var endTime;
 
@@ -49,11 +49,14 @@ function startButtonClicked() {
 
 function updateTimer() {
   timeLeft--;
-  timerElement.textContent = timeLeft;
+  timerElement.textContent = timeLeft + " seconds";
+  if (timeLeft <= 0) {
+    endQuiz();
+  }
 };
 
 function setQuestion() {
-  const currentQuestion = quizQuestion[currentQuestionIndex];
+  var currentQuestion = quizQuestion[currentQuestionIndex];
   questionElement.textContent = currentQuestion.question;
   optionsElement.innerHTML = "";
   
@@ -68,7 +71,7 @@ function setQuestion() {
 }
 
 function checkAnswer(answerIndex) {
-  const currentQuestion = quizQuestion[currentQuestionIndex];
+  var currentQuestion = quizQuestion[currentQuestionIndex];
   if (timeLeft <= 0) {
     endQuiz();
   }
@@ -76,7 +79,7 @@ function checkAnswer(answerIndex) {
   if (answerIndex === currentQuestion.answer) {
     score++;
   } else {
-    timeLeft -= 10;
+    timeLeft -= 25;
   }
 
   currentQuestionIndex++;
@@ -86,19 +89,35 @@ function checkAnswer(answerIndex) {
   } else {
     endQuiz();
   }
+  saveScore();
 }
 
 function endQuiz() {
+  clearInterval(timerInterval);
   endTime = timeLeft;
   timerElement.style.display = "none";
   optionsElement.style.display = "none";
   initialsInput.style.display = "block";
   submitElement.style.display = "block";
-  questionElement.textContent = "Your score is " + score + " out of 4, with " + endTime + " second left. Enter your initials and click 'Submit' to save your score!";
+  questionElement.textContent = "Your score is " + score + " out of 100, with " + endTime + " second left. Enter your initials and click 'Submit' to save your score!";
+}
+
+function displayHighScore() {
+  var storedHighScore = localStorage.getItem("leaderboards");
+  if (storedHighScore) {
+    score = parseInt(storedHighScore);
+  }
+  highScoreElement.textContent = score.toString();
 }
 
 function saveScore() {
   var initials = initialsInput.value;
-  leaderboard.push(["user: " + initials, "score: " + score, "time left: " + endTime]);
-  console.log(leaderboard);
-}
+  leaderboards.push(["user: " + initials, "score: " + score, "time left: " + endTime]);
+  console.log(leaderboards);
+  console.log('Score', timeLeft);
+  if (timeLeft > score) {
+    score = timeLeft;
+    console.log("New High Score: ", score);
+  }
+  localStorage.setItem("leaderboards", JSON.stringify(leaderboards));
+};
