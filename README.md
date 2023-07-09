@@ -8,6 +8,8 @@ Thank you to my classmates, Lucas Wysoczanski and Daniel Lee, for partnering wit
 Lucas Wysoczanski: https://github.com/LucasWyski001
 Daniel Lee: https://github.com/drog41813
 
+The quiz questions are sourced from https://www.tutorialspoint.com/javascript/javascript_online_quiz.htm
+
 ## Usage
 ![Webpage Screenshot](codequiz-screenshot.png)
 
